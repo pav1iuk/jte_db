@@ -13,7 +13,7 @@ public class UserDto {
     private String username;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, max = 100)
+    @Size(min = 4, max = 100)
     private String password;
 
     @NotBlank(message = "Role is required")
