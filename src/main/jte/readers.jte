@@ -11,14 +11,13 @@
 </head>
 <body>
 <h1>List of Readers</h1>
-<p>@readers.size()</p>
 <ul>
-    @for (Reader reader : readers) {
+    @for (Reader reader : readers)
         <li>
-            @reader.name - Books:
+            ${reader.name} - Books:
             <ul>
-                @for (Book book : reader.books) {
-                    <li>@book.title by @book.author.name</li>
+                @for (Book book : reader.books)
+                    <li>${book.title} by ${book.author.name}</li>
                 @endfor
             </ul>
         </li>

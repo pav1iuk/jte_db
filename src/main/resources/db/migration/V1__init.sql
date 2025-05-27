@@ -19,3 +19,4 @@ CREATE TABLE reader_books (
                               book_id INT REFERENCES books(id),
                               PRIMARY KEY (reader_id, book_id)
 );
+
