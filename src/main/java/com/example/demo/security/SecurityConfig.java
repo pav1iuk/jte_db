@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/readers", true)
+                        .defaultSuccessUrl("/books", true)
                         .failureUrl("/login?error")
                         .permitAll())
                 .logout(logout -> logout
