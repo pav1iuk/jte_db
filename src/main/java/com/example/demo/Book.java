@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 
 @Getter
 @Setter
@@ -19,6 +21,7 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "author_id")
     public Author author;
+
 }
 
 

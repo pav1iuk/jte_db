@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -30,12 +31,39 @@ public class BookController {
         return "book-create";
     }
 
-    @GetMapping("/books")
-    public String listBooks(Model model) {
-        List<Book> books = bookRepository.findAll();
-        model.addAttribute("books", books);
+    @GetMapping("/books/search")
+    public String searchBooks(@RequestParam("query") String query, Model model) {
+        List<Book> results = bookRepository.findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(query, query);
+        model.addAttribute("books", results);
         return "book-list";
     }
+
+    @GetMapping("/books")
+    public String listBooks(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String query,
+            Model model) {
+
+        List<Book> books;
+
+        if (query != null && !query.isBlank()) {
+            books = bookRepository.findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(query, query);
+        } else {
+            books = (List<Book>) bookRepository.findAll();
+        }
+
+        if ("asc".equalsIgnoreCase(sort)) {
+            books.sort(Comparator.comparing(book -> book.getTitle().toLowerCase()));
+        } else if ("desc".equalsIgnoreCase(sort)) {
+            books.sort(Comparator.comparing((Book book) -> book.getTitle().toLowerCase()).reversed());
+        }
+
+        model.addAttribute("books", books);
+        model.addAttribute("query", query == null ? "" : query);
+        model.addAttribute("sort", sort);
+        return "book-list";
+    }
+
 
     @GetMapping("/books/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {

@@ -13,6 +13,21 @@
 <body>
 <div class="form-container">
     <h2>List of Books</h2>
+    <form action="/books/search" method="get" class="search-form">
+        <input type="text" name="query" placeholder="Search by title or author..." required>
+        <button type="submit">Search</button>
+    </form>
+    <div class="sort-buttons" style="margin-top: 15px;">
+        <form action="/books" method="get" style="display:inline;">
+            <input type="hidden" name="sort" value="asc">
+            <button type="submit" class="sort-button">Sort A–Z</button>
+        </form>
+        <form action="/books" method="get" style="display:inline;">
+            <input type="hidden" name="sort" value="desc">
+            <button type="submit" class="sort-button">Sort Z–A</button>
+        </form>
+    </div>
+
     <table>
         <thead>
         <tr>
@@ -27,9 +42,11 @@
                 <td>${book.title}</td>
                 <td>${book.author != null ? book.author.name : "Unknown"}</td>
                 <td>
-                    <a href="/books/edit/${book.id}">Edit</a> |
+                    <form action="/books/edit/${book.id}" method="get" style="display:inline;">
+                        <button type="submit" class="edit-button">Edit</button>
+                    </form>
                     <form action="/books/delete/${book.id}" method="post" style="display:inline;">
-                        <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                        <button type="submit" class="delete-button">Delete</button>
                     </form>
                 </td>
             </tr>
